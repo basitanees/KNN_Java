@@ -1,17 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package knn;
 
-/**
- *
- * @author basit
- */
+import java.io.IOException;
+
 public class Test {
     public static void main(String[] args)
     {
-        System.out.println("This is me");
+        String path = "C:/FreeLance/KNN_Java";
+//        try
+//        {
+//            Cifar10DataLoader trainData = new Cifar10DataLoader(path,0);
+//            MyImage img = trainData.next();
+//        }
+//        catch(IOException e)
+//        {
+//            System.out.println("Failed to create iterator!");
+//        }
+        KNN clf = new KNN(5);
+        clf.loadData(path, 0);
+
     }
 }
