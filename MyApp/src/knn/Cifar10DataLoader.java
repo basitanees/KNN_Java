@@ -51,6 +51,18 @@ public class Cifar10DataLoader implements Iterator
         }
     }
     
+    public MyImage[] getBatch()
+    {
+        int index = 0;
+        MyImage[] images = new MyImage[NUM_TRAIN_IMAGES_PER_BATCH];
+        while (hasNext())
+        {
+            images[index] = next();
+            index++;
+        }
+        return images;
+    }
+    
     public MyImage getAtIndex(int index)
     {
         return new MyImage(batchData, index);

@@ -13,8 +13,7 @@ public class KNN
     // Properties
     int k;
     int nTrainBatches;
-    int[] labelsTr;
-    int[][] imagesTr;
+    MyImage[] batch;
     
     // Constructor
     public KNN(int k)
@@ -23,29 +22,10 @@ public class KNN
     }
     
     // Load Data in the model
-    public void loadData(String path, int iBatch)
+    public void loadData2(String path, int iBatch)
     {
-        try
-        {
-            Cifar10DataLoader loader = new Cifar10DataLoader(path, iBatch);
-            labelsTr = new int[NUM_TRAIN_IMAGES_PER_BATCH];
-            imagesTr = new int[NUM_TRAIN_IMAGES_PER_BATCH][NUM_IMG_PIXELS];
-            int index = 0;
-            MyImage img;
-            while (loader.hasNext())
-            {
-                img = loader.next();
-                labelsTr[index] = img.getLabel();
-                imagesTr[index] = img.getImage();
-                index++;
-//                if (index % 1000 == 0)
-//                    System.out.println(index);
-            }
-        }
-        catch(Exception e)
-        {
-            System.out.println("Problem in loading data");
-        }
+        Cifar10DataLoader loader = new Cifar10DataLoader(path, iBatch);
+        batch = loader.getBatch();
     }
     
     public double euclideanDistance(int[] img1, int[] img2)
@@ -64,7 +44,7 @@ public class KNN
         Neighbour[] neighbours = new Neighbour[NUM_TRAIN_IMAGES_PER_BATCH];
         for (int i = 0; i < NUM_TRAIN_IMAGES_PER_BATCH; i++)
         {
-            neighbours[i] = new Neighbour(euclideanDistance(imagesTr[i], img2), labelsTr[i]);
+            neighbours[i] = new Neighbour(euclideanDistance(batch[i].getImage(), img2), batch[i].getLabel());
         }
         return neighbours;
     }
@@ -85,7 +65,6 @@ public class KNN
             else
                 votes.put(label, 1);
         }
-
         // Sets the decision as the label with the greatest number of votes.
         int decision = 0;
         double maxVote = 0;
@@ -95,7 +74,6 @@ public class KNN
                 maxVote = vote.getValue();
             }
         }
-        
         return decision;
     }
     
@@ -108,6 +86,9 @@ public class KNN
             predictedLabels[i] = classifyImg(testImages[i]);
             if (predictedLabels[i] == testLabels[i])
                 trues++;
+            
+            if (i % 100 == 0)
+                System.out.println(i);
         }
         double accuracy = 100 * trues / testImages.length;
         return accuracy;
@@ -115,21 +96,19 @@ public class KNN
     
     public double getTrainAccuracy()
     {
-        int[][] testImages = imagesTr;
-        int[] testLabels = labelsTr;
-        int[] predictedLabels = new int[testImages.length];
+        int[] predictedLabels = new int[batch.length];
         int trues = 0;
-        for (int i = 0; i < testImages.length; i++)
+        for (int i = 0; i < batch.length; i++)
         {
-            predictedLabels[i] = classifyImg(testImages[i]);
-            if (predictedLabels[i] == testLabels[i])
+            predictedLabels[i] = classifyImg(batch[i].getImage());
+            if (predictedLabels[i] == batch[i].getLabel())
                 trues++;
             
             if (i % 100 == 0)
                 System.out.println(i);
             
         }
-        double accuracy = 100 * trues / testImages.length;
+        double accuracy = 100 * trues / batch.length;
         return accuracy;
     }
 }
