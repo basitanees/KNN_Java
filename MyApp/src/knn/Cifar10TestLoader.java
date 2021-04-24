@@ -32,4 +32,6 @@ public class Cifar10TestLoader
         File testFolder = new File(datasetPath);
         imagesList = testFolder.list();
     }
+    
+    
 }
