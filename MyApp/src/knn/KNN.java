@@ -38,8 +38,8 @@ public class KNN
                 labelsTr[index] = img.getLabel();
                 imagesTr[index] = img.getImage();
                 index++;
-                if (index % 1000 == 0)
-                    System.out.println(index);
+//                if (index % 1000 == 0)
+//                    System.out.println(index);
             }
         }
         catch(Exception e)
@@ -61,7 +61,7 @@ public class KNN
     
     public Neighbour[] getDistances2TestImg(int[] img2)
     {
-       Neighbour[] neighbours = new Neighbour[NUM_TRAIN_IMAGES_PER_BATCH];
+        Neighbour[] neighbours = new Neighbour[NUM_TRAIN_IMAGES_PER_BATCH];
         for (int i = 0; i < NUM_TRAIN_IMAGES_PER_BATCH; i++)
         {
             neighbours[i] = new Neighbour(euclideanDistance(imagesTr[i], img2), labelsTr[i]);
@@ -108,6 +108,26 @@ public class KNN
             predictedLabels[i] = classifyImg(testImages[i]);
             if (predictedLabels[i] == testLabels[i])
                 trues++;
+        }
+        double accuracy = 100 * trues / testImages.length;
+        return accuracy;
+    }
+    
+    public double getTrainAccuracy()
+    {
+        int[][] testImages = imagesTr;
+        int[] testLabels = labelsTr;
+        int[] predictedLabels = new int[testImages.length];
+        int trues = 0;
+        for (int i = 0; i < testImages.length; i++)
+        {
+            predictedLabels[i] = classifyImg(testImages[i]);
+            if (predictedLabels[i] == testLabels[i])
+                trues++;
+            
+            if (i % 100 == 0)
+                System.out.println(i);
+            
         }
         double accuracy = 100 * trues / testImages.length;
         return accuracy;

@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Cifar10TestLoader implements Iterator
+public class Cifar10TestLoader
 {
     // Constants
     public static final int HEIGHT = 32;
@@ -26,7 +26,7 @@ public class Cifar10TestLoader implements Iterator
     int index;
     
     // Constructor to initialize datastream
-    public Cifar10TestLoader(String pathToProjectFolder) throws IOException
+    public Cifar10TestLoader(String pathToProjectFolder)
     {
         try
         {
@@ -38,33 +38,4 @@ public class Cifar10TestLoader implements Iterator
             e.printStackTrace();
         }
     }
-    
-    public MyImage getNextImage()
-    {
-        byte[] img = new byte[3073];
-        try
-        {
-            trainInputStream.read(img);
-        }
-        catch (IOException e)
-        {
-            System.out.println("Could not read byte");
-            e.printStackTrace();
-        }
-        MyImage image = new MyImage(img);
-        return image;
-    }
-    
-    public boolean hasNext()
-   {
-      if (index >= NUM_TRAIN_IMAGES_PER_BATCH)
-         return false;
-      return true;
-   }
-    
-   public MyImage next()
-   {
-      index++;
-      return getNextImage();
-   }
 }

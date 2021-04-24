@@ -51,11 +51,24 @@ public class Cifar10DataLoader implements Iterator
         }
     }
     
+    public MyImage getAtIndex(int index)
+    {
+        return new MyImage(batchData, index);
+    }
+    
+    public int[] getImageAtIndex(int index)
+    {
+        return new MyImage(batchData, index).getImage();
+    }
+    
+    public int getLabelAtIndex(int index)
+    {
+        return new MyImage(batchData, index).getLabel();
+    }
+    
     public MyImage getNextImage()
     {
-        MyImage image = new MyImage(batchData, index);
-        index++;
-        return image;
+        return getAtIndex(index++);
     }
     
     public boolean hasNext()
