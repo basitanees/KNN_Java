@@ -28,13 +28,13 @@ public class KNN
         try
         {
             Cifar10DataLoader loader = new Cifar10DataLoader(path, iBatch);
+            labelsTr = new int[NUM_TRAIN_IMAGES_PER_BATCH];
+            imagesTr = new int[NUM_TRAIN_IMAGES_PER_BATCH][NUM_IMG_PIXELS];
             int index = 0;
             MyImage img;
             while (loader.hasNext())
             {
                 img = loader.next();
-                labelsTr = new int[NUM_TRAIN_IMAGES_PER_BATCH];
-                imagesTr = new int[NUM_TRAIN_IMAGES_PER_BATCH][NUM_IMG_PIXELS];
                 labelsTr[index] = img.getLabel();
                 imagesTr[index] = img.getImage();
                 index++;

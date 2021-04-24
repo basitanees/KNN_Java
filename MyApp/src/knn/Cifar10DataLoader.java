@@ -40,6 +40,7 @@ public class Cifar10DataLoader implements Iterator
             int fileSize = (int)trainInputStream.getChannel().size(); // should be 30730000
             batchData = new byte[fileSize];
             trainInputStream.read(batchData);
+            trainInputStream.close();
             index = 0;
         }
         catch(Exception e)
@@ -53,19 +54,19 @@ public class Cifar10DataLoader implements Iterator
     public MyImage getNextImage()
     {
         MyImage image = new MyImage(batchData, index);
+        index++;
         return image;
     }
     
     public boolean hasNext()
-   {
-      if (index >= NUM_TRAIN_IMAGES_PER_BATCH)
-         return false;
-      return true;
-   }
+    {
+        if (index >= NUM_TRAIN_IMAGES_PER_BATCH)
+            return false;
+        return true;
+    }
     
-   public MyImage next()
-   {
-      index++;
-      return getNextImage();
-   }
+    public MyImage next()
+    {
+        return getNextImage();
+    }
 }
