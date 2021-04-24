@@ -4,8 +4,10 @@ import java.util.*;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 
 import javax.imageio.ImageIO;
 
@@ -26,8 +28,8 @@ public class Cifar10DataLoader implements Iterator
     private static final String LABEL_NAMES_FILE = "batches.meta.txt";
     
     // Properties
-    private String datasetPath;
-    protected FileInputStream trainInputStream;
+    private String projectPath;
+//    protected FileInputStream trainInputStream;
     byte[] batchData;
     int index;
     
@@ -36,7 +38,9 @@ public class Cifar10DataLoader implements Iterator
     {
         try
         {
-            trainInputStream = new FileInputStream(pathToProjectFolder + "/" + TRAIN_FILES_FOLDER + "/" + TRAIN_FILES[iBatch]);
+            projectPath = pathToProjectFolder;
+            String batchPath = pathToProjectFolder + "/" + TRAIN_FILES_FOLDER + "/" + TRAIN_FILES[iBatch];
+            FileInputStream trainInputStream = new FileInputStream(batchPath);
             int fileSize = (int)trainInputStream.getChannel().size(); // should be 30730000
             batchData = new byte[fileSize];
             trainInputStream.read(batchData);
@@ -63,19 +67,34 @@ public class Cifar10DataLoader implements Iterator
         return images;
     }
     
+    public String[] getLabelNames()
+    {
+        String[] labelNames = new String[NUM_LABELS];
+        try
+        {
+            String labelNamesPath = projectPath + "/" + TRAIN_FILES_FOLDER + "/" + LABEL_NAMES_FILE;
+            File myObj = new File(labelNamesPath);
+            Scanner myReader = new Scanner(myObj);
+            int i = 0;
+            while (myReader.hasNextLine())
+            {
+                if (i == NUM_LABELS)
+                    break;
+                labelNames[i++] = myReader.nextLine();
+            }
+            myReader.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return labelNames;
+    }
+    
     public MyImage getAtIndex(int index)
     {
         return new MyImage(batchData, index);
-    }
-    
-    public int[] getImageAtIndex(int index)
-    {
-        return new MyImage(batchData, index).getImage();
-    }
-    
-    public int getLabelAtIndex(int index)
-    {
-        return new MyImage(batchData, index).getLabel();
     }
     
     public MyImage getNextImage()
@@ -93,5 +112,15 @@ public class Cifar10DataLoader implements Iterator
     public MyImage next()
     {
         return getNextImage();
+    }
+    
+    public int[] getImageAtIndex(int index)
+    {
+        return new MyImage(batchData, index).getImage();
+    }
+    
+    public int getLabelAtIndex(int index)
+    {
+        return new MyImage(batchData, index).getLabel();
     }
 }

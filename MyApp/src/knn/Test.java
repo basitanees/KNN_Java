@@ -13,6 +13,11 @@ public class Test
     public static void main(String[] args){
         String path = "C:/FreeLance/KNN_Java";
         Cifar10DataLoader trainData = new Cifar10DataLoader(path,0);
+        
+//        String[] labels = trainData.getLabelNames();
+//        for (int i = 0; i < labels.length; i++)
+//            System.out.println(labels[i]);
+
 //        MyImage img;
 //        int ind = 0;
 //        while(trainData.hasNext())
@@ -21,14 +26,15 @@ public class Test
 //            ind++;
 //            System.out.println(ind);
 //        }
+
         KNN clf = new KNN(10);
         clf.loadData(path, 0);
+        System.out.println(clf.getTrainAccuracy());
 //        int label, index;
 //        index = 2;
 //        label = clf.classifyImg(trainData.getImageAtIndex(index));
 //        System.out.println("Actual Label: " + trainData.getLabelAtIndex(index));
 //        System.out.println("Predicted Label: " + label);
-        System.out.println(clf.getTrainAccuracy());
     }
 }
 

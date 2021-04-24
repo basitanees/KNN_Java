@@ -22,7 +22,7 @@ public class KNN
     }
     
     // Load Data in the model
-    public void loadData2(String path, int iBatch)
+    public void loadData(String path, int iBatch)
     {
         Cifar10DataLoader loader = new Cifar10DataLoader(path, iBatch);
         batch = loader.getBatch();
@@ -55,25 +55,26 @@ public class KNN
         Arrays.sort(neighbours);
         LinkedHashMap<Integer, Integer> votes = new LinkedHashMap<Integer, Integer>();
         for (int i = 0; i < this.k; i++)
-        { 
-            // Gets the label of the ith nearest neighbour. 
+        {
             int label = neighbours[i].classLabel;
-            // Increments the vote for that neighbour's class if already in the list. 
+            // Increment vote count if already in the list. 
             if (votes.containsKey(label))
                 votes.put(label, votes.get(label) + 1);
-            // Adds a vote for that neighbour's class if it is not in the list. 
+            // Add vote if not in the list. 
             else
                 votes.put(label, 1);
         }
         // Sets the decision as the label with the greatest number of votes.
         int decision = 0;
         double maxVote = 0;
-        for (Map.Entry<Integer, Integer> vote : votes.entrySet()){
+        for (Map.Entry<Integer, Integer> vote : votes.entrySet())
+        {
             if (vote.getValue() > maxVote){
                 decision = vote.getKey();
                 maxVote = vote.getValue();
             }
         }
+        double confidence = votes.get(decision)/this.k; // Report this somewhere!!!
         return decision;
     }
     
