@@ -13,13 +13,7 @@ import static knn.Cifar10DataLoader.NUM_TRAIN_IMAGES_PER_BATCH;
 public class Cifar10TestLoader
 {
     // Constants
-    public static final int HEIGHT = 32;
-    public static final int WIDTH = 32;
-    public static final int NUM_IMG_PIXELS = 3072;
-//    public static final int NUM_LABELS = 10;
-    public static final int CHANNELS = 3;
     private static final String TEST_FILE_FOLDER = "test-images";
-//    private static final String LABEL_NAMES_FILE = "batches.meta.txt";
     
     // Properties
     private String datasetPath;

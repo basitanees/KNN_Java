@@ -2,8 +2,8 @@ package knn;
 
 public class Neighbour implements Comparable<Neighbour>
 {
-    public double distance;
-    public int classLabel;
+    protected double distance;
+    protected int classLabel;
 
     public Neighbour(double distance, int classlabel)
     {

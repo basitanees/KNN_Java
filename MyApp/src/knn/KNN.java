@@ -12,8 +12,7 @@ public class KNN
 {
     // Properties
     int k;
-    int nTrainBatches;
-    MyImage[] batch;
+    MyImage[] dataTr;
     
     // Constructor
     public KNN(int k)
@@ -21,11 +20,30 @@ public class KNN
         this.k = k;
     }
     
-    // Load Data in the model
-    public void loadData(String path, int iBatch)
+    public MyImage[] getBatch(String path, int iBatch)
     {
         Cifar10DataLoader loader = new Cifar10DataLoader(path, iBatch);
-        batch = loader.getBatch();
+        return loader.getBatch();
+    }
+    
+    // Load Data in the model
+    public void loadBatch(String path, int iBatch)
+    {
+        this.dataTr = getBatch(path, iBatch);
+    }
+    
+    public void loadData(String path, int[] iBatches)
+    {
+        this.dataTr = new MyImage[NUM_TRAIN_IMAGES_PER_BATCH * iBatches.length];
+        MyImage[] data;
+        for (int i = 0; i < iBatches.length; i++)
+        {
+            data = getBatch(path, iBatches[i]);
+            for (int j = 0; j < data.length; j++)
+            {
+                this.dataTr[i*NUM_TRAIN_IMAGES_PER_BATCH + j] = data[j];
+            }
+        }
     }
     
     public double euclideanDistance(int[] img1, int[] img2)
@@ -41,15 +59,15 @@ public class KNN
     
     public Neighbour[] getDistances2TestImg(int[] img2)
     {
-        Neighbour[] neighbours = new Neighbour[NUM_TRAIN_IMAGES_PER_BATCH];
-        for (int i = 0; i < NUM_TRAIN_IMAGES_PER_BATCH; i++)
+        Neighbour[] neighbours = new Neighbour[this.dataTr.length];
+        for (int i = 0; i < dataTr.length; i++)
         {
-            neighbours[i] = new Neighbour(euclideanDistance(batch[i].getImage(), img2), batch[i].getLabel());
+            neighbours[i] = new Neighbour(euclideanDistance(this.dataTr[i].getImage(), img2), this.dataTr[i].getLabel());
         }
         return neighbours;
     }
     
-    public int classifyImg(int[] img2)
+    public Decision classifyImg(int[] img2)
     {
         Neighbour[] neighbours = getDistances2TestImg(img2);
         Arrays.sort(neighbours);
@@ -75,7 +93,7 @@ public class KNN
             }
         }
         double confidence = votes.get(decision)/this.k; // Report this somewhere!!!
-        return decision;
+        return new Decision(decision, confidence);
     }
     
     public double getAccuracy(MyImage[] testImages)
@@ -84,7 +102,8 @@ public class KNN
         int trues = 0;
         for (int i = 0; i < testImages.length; i++)
         {
-            predictedLabels[i] = classifyImg(testImages[i].getImage());
+            Decision pred = classifyImg(testImages[i].getImage());
+            predictedLabels[i] = pred.decision;
             if (predictedLabels[i] == testImages[i].getLabel())
                 trues++;
             
@@ -97,19 +116,6 @@ public class KNN
     
     public double getTrainAccuracy()
     {
-        int[] predictedLabels = new int[batch.length];
-        int trues = 0;
-        for (int i = 0; i < batch.length; i++)
-        {
-            predictedLabels[i] = classifyImg(batch[i].getImage());
-            if (predictedLabels[i] == batch[i].getLabel())
-                trues++;
-            
-            if (i % 100 == 0)
-                System.out.println(i);
-            
-        }
-        double accuracy = 100 * trues / batch.length;
-        return accuracy;
+        return getAccuracy(this.dataTr);
     }
 }

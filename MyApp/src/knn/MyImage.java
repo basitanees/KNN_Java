@@ -55,32 +55,6 @@ public class MyImage
             }
         }
         
-//        // Constructor for test data
-//        public MyImage(String datasetPath, String imageName)
-//        {
-//            classLabel = Character.getNumericValue(imageName.charAt(0));
-//            String imagePath = datasetPath + "/" + imageName;
-//            File img = new File(imagePath);
-//            BufferedImage image;
-//            int pixel;
-//            try{
-//                image = ImageIO.read(img);
-//                for(int i = 0; i < WIDTH; i++)
-//                {
-//                    for(int j = 0; j < HEIGHT; j++)
-//                    {    
-//                        pixel =  image.getRGB(i,j);
-//                        image1D[i*WIDTH+j*HEIGHT]   = (pixel & 0x00ff0000) >> 16;
-//                        image1D[i] = (pixel & 0x0000ff00) >> 8;
-//                        image1D[i]=  pixel & 0x000000ff;
-//                    }
-//                }
-//            }
-//            catch(IOException e){
-//                e.printStackTrace();
-//            }
-//        }
-        
         public int getLabel()
         {
             return classLabel;
