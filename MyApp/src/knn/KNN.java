@@ -78,14 +78,14 @@ public class KNN
         return decision;
     }
     
-    public double getAccuracy(int[][] testImages, int[] testLabels)
+    public double getAccuracy(MyImage[] testImages)
     {
         int[] predictedLabels = new int[testImages.length];
         int trues = 0;
         for (int i = 0; i < testImages.length; i++)
         {
-            predictedLabels[i] = classifyImg(testImages[i]);
-            if (predictedLabels[i] == testLabels[i])
+            predictedLabels[i] = classifyImg(testImages[i].getImage());
+            if (predictedLabels[i] == testImages[i].getLabel())
                 trues++;
             
             if (i % 100 == 0)

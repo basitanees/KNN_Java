@@ -32,6 +32,7 @@ public class Cifar10DataLoader implements Iterator
 //    protected FileInputStream trainInputStream;
     byte[] batchData;
     int index;
+    int size;
     
     // Constructor to initialize datastream
     public Cifar10DataLoader(String pathToProjectFolder, int iBatch)
@@ -46,6 +47,7 @@ public class Cifar10DataLoader implements Iterator
             trainInputStream.read(batchData);
             trainInputStream.close();
             index = 0;
+            size = NUM_TRAIN_IMAGES_PER_BATCH;
         }
         catch(Exception e)
         {
@@ -104,7 +106,7 @@ public class Cifar10DataLoader implements Iterator
     
     public boolean hasNext()
     {
-        if (index >= NUM_TRAIN_IMAGES_PER_BATCH)
+        if (index >= size)
             return false;
         return true;
     }

@@ -55,20 +55,6 @@ public class MyImage
             }
         }
         
-        public static byte[] toByteArray(BufferedImage bi, String format)
-        {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            try{
-                ImageIO.write(bi, format, baos);
-            }
-            catch(IOException e)
-            {
-                e.printStackTrace();
-            }
-            byte[] bytes = baos.toByteArray();
-            return bytes;
-        }
-        
 //        // Constructor for test data
 //        public MyImage(String datasetPath, String imageName)
 //        {

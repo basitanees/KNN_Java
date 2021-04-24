@@ -13,6 +13,7 @@ public class Test
     public static void main(String[] args) throws IOException{
         String path = "C:/FreeLance/KNN_Java";
         Cifar10DataLoader trainData = new Cifar10DataLoader(path,0);
+        Cifar10TestLoader testData = new Cifar10TestLoader(path);
         
 //        String[] labels = trainData.getLabelNames();
 //        for (int i = 0; i < labels.length; i++)
@@ -26,23 +27,16 @@ public class Test
 //            ind++;
 //            System.out.println(ind);
 //        }
-        MyImage img = new MyImage("C:/FreeLance/KNN_Java/MyApp", "out1.png");
-        for (int i = 3000; i < 3072; i++)
-            System.out.print(img.getImage()[i] + " ");
-        System.out.println();
-        
-        byte[] b = new byte[3073];
+//        MyImage img = new MyImage("C:/FreeLance/KNN_Java/MyApp", "out1.png");
+//        for (int i = 3000; i < 3072; i++)
+//            System.out.print(img.getImage()[i] + " ");
+//        System.out.println();
 
-        FileInputStream inputStream = new FileInputStream("C:/FreeLance/KNN_Java/Training data-20210318/data_batch_1.bin");
-
-        inputStream.read(b);
-  
-        // and with 0xFF to convert to unsigned int
-        for (int i = 3000; i < 3072; i++)
-            System.out.print((b[i+1] & 0xFF) + " ");
-
-//        KNN clf = new KNN(10);
-//        clf.loadData(path, 0);
+        KNN clf = new KNN(10);
+        clf.loadData(path, 0);
+        double accTest;
+        accTest = clf.getAccuracy(testData.getTestImages());
+        System.out.println(accTest);
 //        System.out.println(clf.getTrainAccuracy());
         
 //        int label, index;
