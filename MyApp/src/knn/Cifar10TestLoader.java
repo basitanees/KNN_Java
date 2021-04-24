@@ -1,14 +1,6 @@
 package knn;
 
-import java.util.*;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.File;
-import javax.imageio.ImageIO;
-import static knn.Cifar10DataLoader.NUM_TRAIN_IMAGES_PER_BATCH;
 
 public class Cifar10TestLoader
 {

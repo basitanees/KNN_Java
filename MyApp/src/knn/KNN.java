@@ -1,11 +1,9 @@
 package knn;
 
-import java.lang.Math;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static knn.Cifar10DataLoader.NUM_IMG_PIXELS;
 import static knn.Cifar10DataLoader.NUM_TRAIN_IMAGES_PER_BATCH;
 
 public class KNN
