@@ -19,7 +19,7 @@ public class Cifar10DataLoader implements Iterator
     public static final int NUM_TRAIN_IMAGES = 50000;
     public static final int NUM_TRAIN_IMAGES_PER_BATCH = 10000;
     public static final int CHANNELS = 3;
-    private static final int N_BYTES_PER_IMAGE = 3073;
+    public static final int N_BYTES_PER_IMAGE = 3073;
     private static final String TRAIN_FILES_FOLDER = "Training data-20210318";
     private static final String[] TRAIN_FILES = {"data_batch_1.bin", "data_batch_2.bin", "data_batch_3.bin", "data_batch_4.bin", "data_batch5.bin"};
     private static final String TEST_FILE_FOLDER = "test-images";
@@ -28,14 +28,18 @@ public class Cifar10DataLoader implements Iterator
     // Properties
     private String datasetPath;
     protected FileInputStream trainInputStream;
+    byte[] batchData;
     int index;
     
     // Constructor to initialize datastream
-    public Cifar10DataLoader(String pathToProjectFolder, int iBatch) throws IOException
+    public Cifar10DataLoader(String pathToProjectFolder, int iBatch)
     {
         try
         {
             trainInputStream = new FileInputStream(pathToProjectFolder + "/" + TRAIN_FILES_FOLDER + "/" + TRAIN_FILES[iBatch]);
+            int fileSize = (int)trainInputStream.getChannel().size(); // should be 30730000
+            batchData = new byte[fileSize];
+            trainInputStream.read(batchData);
             index = 0;
         }
         catch(Exception e)
@@ -48,17 +52,7 @@ public class Cifar10DataLoader implements Iterator
     
     public MyImage getNextImage()
     {
-        byte[] img = new byte[3073];
-        try
-        {
-            trainInputStream.read(img);
-        }
-        catch (IOException e)
-        {
-            System.out.println("Could not read byte");
-            e.printStackTrace();
-        }
-        MyImage image = new MyImage(img);
+        MyImage image = new MyImage(batchData, index);
         return image;
     }
     

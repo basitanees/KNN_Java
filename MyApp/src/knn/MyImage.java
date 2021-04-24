@@ -1,6 +1,7 @@
 package knn;
 
 import static knn.Cifar10DataLoader.NUM_IMG_PIXELS;
+import static knn.Cifar10DataLoader.N_BYTES_PER_IMAGE;
 
 public class MyImage
     {
@@ -9,13 +10,14 @@ public class MyImage
         int[] image1D;
         
         // Constructor
-        public MyImage(byte[] image)
+        public MyImage(byte[] batchData, int index)
         {
-            classLabel = image[0] & 0xFF;
+            int offset = index * N_BYTES_PER_IMAGE;
+            classLabel = batchData[offset] & 0xFF;
             image1D = new int[NUM_IMG_PIXELS];
             for (int i = 0; i < NUM_IMG_PIXELS; i++)
             {
-                image1D[i] = image[i+1] & 0xFF;
+                image1D[i] = batchData[offset+1+i] & 0xFF;
             }
         }
         
