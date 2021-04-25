@@ -9,6 +9,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.IOException;
 
 public class MyImage
     {
@@ -35,13 +36,12 @@ public class MyImage
             String imagePath = datasetPath + "/" + imageName;
             File img = new File(imagePath);
             BufferedImage image = null;
-            try
-            {
+            try{
                 image = ImageIO.read(img);
             }
-            catch(Exception e)
-            {
+            catch(IOException e){
             }
+            // should check if null
             byte[] imgByte = ((DataBufferByte)image.getRaster().getDataBuffer()).getData();
             image1D = new int[NUM_IMG_PIXELS];
             for (int i = 0; i < N_PIXELS_PER_CHANNEL; i++)

@@ -12,6 +12,7 @@ public class Neighbour implements Comparable<Neighbour>
     }
 
     // Neighbours are compared based on distance.
+    @Override
     public int compareTo(Neighbour n2)
     {
         return Double.compare(this.distance, n2.distance);

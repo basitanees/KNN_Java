@@ -37,10 +37,7 @@ public class KNN
         for (int i = 0; i < iBatches.length; i++)
         {
             data = getBatch(path, iBatches[i]);
-            for (int j = 0; j < data.length; j++)
-            {
-                this.dataTr[i*NUM_TRAIN_IMAGES_PER_BATCH + j] = data[j];
-            }
+            System.arraycopy(data, 0, this.dataTr, i*NUM_TRAIN_IMAGES_PER_BATCH, data.length);
         }
     }
     
@@ -69,14 +66,13 @@ public class KNN
     {
         Neighbour[] neighbours = getDistances2TestImg(img2);
         Arrays.sort(neighbours);
-        LinkedHashMap<Integer, Integer> votes = new LinkedHashMap<Integer, Integer>();
+        // Hash map for storing votes from nearest neighbors
+        LinkedHashMap<Integer, Integer> votes = new LinkedHashMap<>();
         for (int i = 0; i < this.k; i++)
         {
-            int label = neighbours[i].classLabel;
-            // Increment vote count if already in the list. 
+            int label = neighbours[i].classLabel; 
             if (votes.containsKey(label))
                 votes.put(label, votes.get(label) + 1);
-            // Add vote if not in the list. 
             else
                 votes.put(label, 1);
         }

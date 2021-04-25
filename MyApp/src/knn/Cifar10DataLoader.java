@@ -23,10 +23,9 @@ public class Cifar10DataLoader implements Iterator
     
     // Properties
     private String projectPath;
-//    protected FileInputStream trainInputStream;
-    byte[] batchData;
-    int index;
-    int size;
+    private byte[] batchData;
+    private int index;
+    private int size;
     
     // Constructor to initialize datastream
     public Cifar10DataLoader(String pathToProjectFolder, int iBatch)
