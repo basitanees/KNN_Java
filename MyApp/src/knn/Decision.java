@@ -1,5 +1,6 @@
 package knn;
 
+// Class to hold the predicted label and confidence level of prediction
 public class Decision
 {
     public int decision;

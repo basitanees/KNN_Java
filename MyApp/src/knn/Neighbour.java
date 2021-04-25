@@ -1,5 +1,8 @@
 package knn;
 
+
+// Class to store distance from test image to train image and label of the train image.
+// Make the class comparable to use the sort function
 public class Neighbour implements Comparable<Neighbour>
 {
     protected double distance;

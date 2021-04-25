@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.FileInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Cifar10DataLoader implements Iterator
 {
@@ -42,7 +43,7 @@ public class Cifar10DataLoader implements Iterator
             index = 0;
             size = NUM_TRAIN_IMAGES_PER_BATCH;
         }
-        catch(Exception e)
+        catch(IOException e)
         {
             if (iBatch > 4 || iBatch < 0)
                 System.out.println("Invalid batch number");
@@ -63,6 +64,7 @@ public class Cifar10DataLoader implements Iterator
         return images;
     }
     
+    // Read Labels file and save the names in string
     public String[] getLabelNames()
     {
         String[] labelNames = new String[NUM_LABELS];
@@ -88,6 +90,7 @@ public class Cifar10DataLoader implements Iterator
         return labelNames;
     }
     
+    // Get image at index
     public MyImage getAtIndex(int index)
     {
         return new MyImage(batchData, index);
@@ -104,16 +107,19 @@ public class Cifar10DataLoader implements Iterator
         return index < size;
     }
     
+    @Override
     public MyImage next()
     {
         return getNextImage();
     }
     
+    // Get image at index image only without label
     public int[] getImageAtIndex(int index)
     {
         return new MyImage(batchData, index).getImage();
     }
     
+    // Get label of image at index
     public int getLabelAtIndex(int index)
     {
         return new MyImage(batchData, index).getLabel();

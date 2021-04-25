@@ -15,35 +15,36 @@ public class Cifar10TestLoader
     // Constructor to initialize datastream
     public Cifar10TestLoader(String pathToProjectFolder)
     {
-        datasetPath = pathToProjectFolder + "/" + TEST_FILE_FOLDER;
-        File testFolder = new File(datasetPath);
-        imagesList = testFolder.list();
+        this.datasetPath = pathToProjectFolder + "/" + TEST_FILE_FOLDER;
+        File testFolder = new File(this.datasetPath);
+        this.imagesList = testFolder.list(); // could add filter for png files
     }
     
+    // Load images using a list of image names
     public MyImage[] getImages(String[] imgList)
     {
         MyImage[] images = new MyImage[imgList.length];
         for (int i = 0; i < imgList.length; i++)
         {
-            images[i] = new MyImage(datasetPath, imgList[i]);
+            images[i] = getImg(imgList[i]);
         }
         return images;
     }
     
+    // Load all images present in the test dataset folder
     public MyImage[] getTestImages()
     {
-        MyImage[] images = new MyImage[imagesList.length];
-        for (int i = 0; i < imagesList.length; i++)
+        MyImage[] images = new MyImage[this.imagesList.length];
+        for (int i = 0; i < this.imagesList.length; i++)
         {
-            images[i] = new MyImage(datasetPath, imagesList[i]);
+            images[i] = getImg(this.imagesList[i]);
         }
         return images;
     }
     
+    // Get image using an image name
     public MyImage getImg(String imgPath)
     {
         return new MyImage(datasetPath, imgPath);
     }
-    
-    
 }
