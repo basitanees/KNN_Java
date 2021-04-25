@@ -27,7 +27,7 @@ public class Cifar10DataLoader implements Iterator
     private int index;
     private int size;
     
-    // Constructor to initialize datastream
+    // Constructor to read the bytes from bin file
     public Cifar10DataLoader(String pathToProjectFolder, int iBatch)
     {
         try
@@ -50,14 +50,15 @@ public class Cifar10DataLoader implements Iterator
         }
     }
     
+    // Get list of all the images in the batch
     public MyImage[] getBatch()
     {
-        int index = 0;
+        int ind = 0;
         MyImage[] images = new MyImage[NUM_TRAIN_IMAGES_PER_BATCH];
         while (hasNext())
         {
-            images[index] = next();
-            index++;
+            images[ind] = next();
+            ind++;
         }
         return images;
     }
@@ -97,11 +98,10 @@ public class Cifar10DataLoader implements Iterator
         return getAtIndex(index++);
     }
     
+    @Override
     public boolean hasNext()
     {
-        if (index >= size)
-            return false;
-        return true;
+        return index < size;
     }
     
     public MyImage next()
