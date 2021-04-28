@@ -6,7 +6,7 @@ public class Test
 {
     public static void main(String[] args) throws IOException{
         String path = "C:/FreeLance/KNN_Java";
-        Cifar10DataLoader trainData = new Cifar10DataLoader(path,0);
+//        Cifar10DataLoader trainData = new Cifar10DataLoader(path,0);
         Cifar10TestLoader testData = new Cifar10TestLoader(path);
         
 //        String[] labels = trainData.getLabelNames();

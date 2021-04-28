@@ -34,12 +34,7 @@ public class Cifar10TestLoader
     // Load all images present in the test dataset folder
     public MyImage[] getTestImages()
     {
-        MyImage[] images = new MyImage[this.imagesList.length];
-        for (int i = 0; i < this.imagesList.length; i++)
-        {
-            images[i] = getImg(this.imagesList[i]);
-        }
-        return images;
+        return getImages(this.imagesList);
     }
     
     // Get image using an image name
