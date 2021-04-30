@@ -93,7 +93,7 @@ public class KNN
                 maxVote = vote.getValue();
             }
         }
-        double confidence = votes.get(prediction)/this.k;
+        double confidence = (1.0*votes.get(prediction))/this.k;
         return new Decision(prediction, confidence);
     }
     
@@ -107,11 +107,11 @@ public class KNN
             predictedLabels[i] = pred.decision;
             if (predictedLabels[i] == testImages[i].getLabel())
                 trues++;
-            
-            if (i % 100 == 0)
-                System.out.println(i);
+            // progress
+//            if (i % 100 == 0)
+//                System.out.println(i);
         }
-        double accuracy = 100 * trues / testImages.length;
+        double accuracy = 100.0 * trues / testImages.length;
         return accuracy;
     }
     

@@ -18,7 +18,7 @@ public class Cifar10DataLoader implements Iterator
     public static final int CHANNELS = 3;
     public static final int N_BYTES_PER_IMAGE = 3073;
     private static final String TRAIN_FILES_FOLDER = "Training data-20210318";
-    private static final String[] TRAIN_FILES = {"data_batch_1.bin", "data_batch_2.bin", "data_batch_3.bin", "data_batch_4.bin", "data_batch5.bin"};
+    private static final String[] TRAIN_FILES = {"data_batch_1.bin", "data_batch_2.bin", "data_batch_3.bin", "data_batch_4.bin", "data_batch_5.bin"};
     private static final String TEST_FILE_FOLDER = "test-images";
     private static final String LABEL_NAMES_FILE = "batches.meta.txt";
     

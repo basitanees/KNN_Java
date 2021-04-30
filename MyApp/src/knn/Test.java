@@ -26,12 +26,18 @@ public class Test
 //            System.out.print(img.getImage()[i] + " ");
 //        System.out.println();
 
-        KNN clf = new KNN(10);
-        int[] iBatches = {0,1,2};
-        clf.loadData(path, iBatches);
+        int[] iBatches = {0,1,2,3,4};
         double accTest;
-        accTest = clf.getAccuracy(testData.getTestImages());
-        System.out.println(accTest);
+        KNN clf;
+        clf = new KNN(1);
+        clf.loadData(path, iBatches);
+        for (int k = 1; k <= 10; k++)
+        {
+            System.out.println("KNN for k = " + k);
+            clf.k = k;
+            accTest = clf.getAccuracy(testData.getTestImages());
+            System.out.println("The accuracy at k = " + k + " is " + accTest);
+        }
         
 //        System.out.println(clf.getTrainAccuracy());
         
